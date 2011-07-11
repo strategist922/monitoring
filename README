@@ -1,0 +1,10 @@
+Ensemble de fonctions qui permettent de monitorer les logs (recette, production), si on dépasse un nombre d'erreurs total ou distinctes.
+
+Intégré à Hudson, nous l'utilisons pour réduire la boucle de feedback car les MEP de JSP peuvent être très fréquentes. 
+
+Il y a un exemple d'utilisation dans parse_logs.sh
+
+
+TODO
+- faire un lien externe sur git pour la partie commune
+- se baser sur un liste d'erreurs connues
