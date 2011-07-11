@@ -2,7 +2,7 @@ Ensemble de fonctions qui permettent de monitorer les logs (recette, production)
 
 Intégré à Hudson, nous l'utilisons pour réduire la boucle de feedback car les MEP de JSP peuvent être très fréquentes. 
 
-Il y a un exemple d'utilisation dans parse_logs.sh
+Il y a un exemple d'utilisation dans main_example.sh
 
 
 TODO
