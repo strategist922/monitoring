@@ -1,0 +1,29 @@
+[05/07/2011 00:15:00.029-schedulerFactoryBatch_Worker-7] <INFO> Search db/endeca search engine mapping loading ends
+[05/07/2011 00:19:10.085-http-a-8080-19$4038408] <INFO> SPRING VELOCITY MAIL - SpringVelocityMail - debugMode=false - debugEmail = _it_keljob@adenclassifieds.com
+[05/07/2011 00:20:00.001-schedulerFactoryBatch_Worker-8] <INFO> JOB REFERENCE LIST DATA - RELOAD DATA
+[05/07/2011 00:20:00.001-schedulerFactoryBatch_Worker-8] <INFO> Retrieving job references
+[05/07/2011 00:20:00.019-schedulerFactoryBatch_Worker-8] <INFO> Starts building job reference info data
+[05/07/2011 00:20:02.528-schedulerFactoryBatch_Worker-8] <INFO> Data have been created
+[05/07/2011 00:20:02.528-schedulerFactoryBatch_Worker-8] <INFO> Ask for cache creation
+[05/07/2011 00:20:02.528-schedulerFactoryBatch_Worker-8] <INFO> JOB_INFO_MATCHER Starts creating new cache
+[05/07/2011 00:20:02.824-schedulerFactoryBatch_Worker-8] <INFO> JOB_INFO_MATCHER New cache created
+[05/07/2011 00:20:02.826-schedulerFactoryBatch_Worker-8] <INFO> JOB_INFO_MATCHER New cache post-processed
+[05/07/2011 00:20:02.826-schedulerFactoryBatch_Worker-8] <INFO> JOB_INFO_MATCHER Serializing new cache
+[05/07/2011 00:20:02.826-schedulerFactoryBatch_Worker-8] <INFO> [Cache Serializer] Try to save data into /data/cache/keljob/jobs-reference.bin
+[05/07/2011 03:41:32.196-http-a-8080-7$21292131] <ERROR> Unable to create account for candidat with email=bonjourMail@joujou.com
+com.keljob.mvc.utils.CaptchaValidationException: Unable to validate response (d9zi6) for captchaId=abcSTF1xLFGIUfskO83dtff
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:488)
+	at org.apache.struts2.dispatcher.FilterDispatcher.doFilter(FilterDispatcher.java:395)
+	at com.caucho.server.dispatch.FilterFilterChain.doFilter(FilterFilterChain.java:87)
+	at com.opensymphony.sitemesh.webapp.SiteMeshFilter.obtainContent(SiteMeshFilter.java:129)
+	at com.opensymphony.sitemesh.webapp.SiteMeshFilter.doFilter(SiteMeshFilter.java:77)
+	at com.caucho.server.dispatch.FilterFilterChain.doFilter(FilterFilterChain.java:87)
+	at org.apache.struts2.dispatcher.ActionContextCleanUp.doFilter(ActionContextCleanUp.java:102)
+	at com.caucho.server.dispatch.FilterFilterChain.doFilter(FilterFilterChain.java:87)
+	at com.caucho.server.webapp.WebAppFilterChain.doFilter(WebAppFilterChain.java:187)
+	at com.caucho.server.dispatch.ServletInvocation.service(ServletInvocation.java:265)
+	at com.caucho.server.http.HttpRequest.handleRequest(HttpRequest.java:273)
+	at com.caucho.server.port.TcpConnection.run(TcpConnection.java:682)
+	at com.caucho.util.ThreadPool$Item.runTasks(ThreadPool.java:743)
+	at com.caucho.util.ThreadPool$Item.run(ThreadPool.java:662)
+	at java.lang.Thread.run(Thread.java:619)
