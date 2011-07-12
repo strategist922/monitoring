@@ -92,12 +92,17 @@ testRendIdAnonyme_remplace_mot_contenant_idEgal_par_idEgalXXX(){
 	assertEquals "id anonymé" "candidat id=XXX bonjour" "${idNettoye}"
 }
 
-testAplatitDate_remplace_date_par_XX(){
-	echo "<ERROR> [01/07/2011 09:42:45.579-http-a-8080-12$7984459] Unable to create account" > $LOG_FILE
+testAplatitDate_remplace_dateHeure_par_XX(){
+	echo "<ERROR> [01/07/2011 09:42] Unable to create account" > $LOG_FILE
 	ligneNettoyee=`aplatitDateJusqueProchainEspace ${LOG_FILE}`
 	assertEquals "date aplatie" "<ERROR> [XX/XX/XXXX XX:XX:XX] Unable to create account" "${ligneNettoyee}"
 }
 
+testAplatitDate_remplace_dateHeureEtIds_par_XX(){
+	echo "<ERROR> [01/07/2011 09:42:45.579-http-a-8080-12$7984459] Unable to create account" > $LOG_FILE
+	ligneNettoyee=`aplatitDateJusqueProchainEspace ${LOG_FILE}`
+	assertEquals "date aplatie" "<ERROR> [XX/XX/XXXX XX:XX:XX] Unable to create account" "${ligneNettoyee}"
+}
 
 oneTimeSetUp(){
 	. ../main/verifie_logs.sh
