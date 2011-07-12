@@ -27,3 +27,8 @@ rendIdAnonyme(){
 	logFile=$1
 	sed 's/id=[.a-zA-Z0-9\_\-]*/id=XXX/g' $logFile 
 }
+
+aplatitDateJusqueProchainEspace() {
+	logFile=$1
+	sed 's#[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
+}

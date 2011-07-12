@@ -80,7 +80,6 @@ EOF
 	assertEquals "detail des erreurs" "      2  <ERROR> Unable to get cv for candidat id=XXX" "${std}"
 }
 
-
 testRendMailAnonyme_remplace_mot_contenant_email_par_mailXXX(){
 	echo "with email=dupond@mail.com incorrect" > $LOG_FILE
 	mailNettoye=`rendEmailAnonyme ${LOG_FILE}`
@@ -92,6 +91,13 @@ testRendIdAnonyme_remplace_mot_contenant_idEgal_par_idEgalXXX(){
 	idNettoye=`rendIdAnonyme ${LOG_FILE}`
 	assertEquals "id anonymé" "candidat id=XXX bonjour" "${idNettoye}"
 }
+
+testAplatitDate_remplace_date_par_XX(){
+	echo "<ERROR> [01/07/2011 09:42:45.579-http-a-8080-12$7984459] Unable to create account" > $LOG_FILE
+	ligneNettoyee=`aplatitDateJusqueProchainEspace ${LOG_FILE}`
+	assertEquals "date aplatie" "<ERROR> [XX/XX/XXXX XX:XX:XX] Unable to create account" "${ligneNettoyee}"
+}
+
 
 oneTimeSetUp(){
 	. ../main/verifie_logs.sh
