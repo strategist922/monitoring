@@ -12,10 +12,10 @@ getNbErreursDistinctes(){
 	rendIdAnonyme ${tempLog} > ${tempLog}_sans_id
 	aplatitDateJusqueProchainEspace ${tempLog}_sans_id > ${tempLog}_sans_id_ni_date
 	rendEmailAnonyme ${tempLog}_sans_id_ni_date | sort | uniq -c > ${tempLog}_resume
-	sort -nr ${tempLog}_resume >&2
 	nbErreurs=`cat ${tempLog}_resume | wc -l`
+	echo "Total ERROR distinct :  $nbErreurs"
+	sort -nr ${tempLog}_resume >&2
 	rm -f $tempLog*
-	return $nbErreurs;
 }
 
 rendEmailAnonyme(){

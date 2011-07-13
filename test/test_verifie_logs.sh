@@ -49,7 +49,7 @@ EOF
 }
 
 
-testGetNbErreursDistinctes_quandEspaceCrochetChevronError_retourneTroisErreurs(){
+testGetNbErreursDistinctes_quandEspaceCrochetChevronError_afficheTroisErreurs(){
 
 	cat > $LOG_FILE << EOF
 [01/07/2011 01:29:12.001-http-a-8080-10$549007] ERROR An error has occured during search
@@ -58,8 +58,8 @@ testGetNbErreursDistinctes_quandEspaceCrochetChevronError_retourneTroisErreurs()
 
 EOF
 
-	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> trouvés" "3" "$?"
+	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+	assertEquals "Total ERROR distinct :  3" "$std"
 }
 
 testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
@@ -71,10 +71,12 @@ testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
 
 EOF
 
-  std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-  assertEquals "nombre <ERROR> trouvés" 2 $?
-  assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account 
-      1  <ERROR> An error has occured during search" "${std}"
+  std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+  assertEquals "message stdout" "Total ERROR distinct :  2" "$std"
+
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
+  assertEquals "message stderr" "      2  <ERROR> Unable to create account 
+      1  <ERROR> An error has occured during search" "${stderr}"
 }
 
 
@@ -87,8 +89,8 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_alors_compter_une_seule
 
 EOF
 
-	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> trouvés" 2 $?
+	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+	assertEquals "Total ERROR distinct :  2" "$std"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_et_dates_differentes_alors_compter_une_seule_fois(){
@@ -99,8 +101,8 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_et_dates_differentes_al
 
 EOF
 
-	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> différentes trouvés" 1 $?
+	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+	assertEquals "Total ERROR distinct :  1" "$std"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_emails_differents_alors_compter_une_seule_fois(){
@@ -111,10 +113,11 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_emails_differents_
 
 EOF
 	
-	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> différentes trouvés" 1 $?
+	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+	assertEquals "Total ERROR distinct :  1" "$std"
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
-	assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account for candidat with email=mailXXX" "${std}"
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
+	assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account for candidat with email=mailXXX" "${stderr}"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_id_differents_alors_compter_une_seule_fois(){
@@ -123,10 +126,11 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_id_differents_alor
 [01/07/2011 14:00:10.488-http-a-8080-22$17977519] <ERROR> Unable to get cv for candidat id=123456
 EOF
 	
-	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> différentes trouvés" 1 $?
+	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+	assertEquals "Total ERROR distinct :  1" "$std"
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
-	assertEquals "detail des erreurs" "      2  <ERROR> Unable to get cv for candidat id=XXX" "${std}"
+	assertEquals "detail des erreurs" "      2  <ERROR> Unable to get cv for candidat id=XXX" "${stderr}"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_dates_differentes_alors_compter_une_seule_fois(){
@@ -134,10 +138,12 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_dates_differentes_
 [ERROR] - 10/07/2011 23:11:30 : fr.smile.fwk.base.ServletBase  - ATTENTION : Erreur applicative :null
 EOF
 
-  std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-  assertEquals "nombre <ERROR> différentes trouvés" 1 $?
+  stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+  assertEquals "Total ERROR distinct :  1" "$stdout"
+
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
-  assertEquals "detail des erreurs" "      1  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - ATTENTION : Erreur applicative :null" "${std}"
+  assertEquals "detail des erreurs" "      1  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - ATTENTION : Erreur applicative :null" "${stderr}"
 
 }
 
