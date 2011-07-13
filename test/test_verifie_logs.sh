@@ -2,7 +2,7 @@
 
 export SHUNIT2_SCRIPTS=../lib/shunit2-2.1.6/src
 
-testGetNbErreurs_quand_deux_erreurs_differentes_alors_retourne_deux_erreurs(){
+testGetNbErreurs_quandDeuxErreursDifferentes_alorsRetourneDeuxErreurs(){
 
 	cat > $LOG_FILE << EOF
 [01/07/2011 01:29:12.001-http-a-8080-10$549007] <ERROR> An error has occured during search
@@ -13,20 +13,56 @@ EOF
 	assertEquals "nombre <ERROR> trouvés" 2 $?
 }
 
-testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
+testGetNbErreurs_quandCrochetErrorCrochet_alorsRetourneDeuxErreurs(){
+  cat > $LOG_FILE << EOF
+[ERROR] ATTENTION : Erreur applicative :null
+[ERROR] ATTENTION : Erreur flux
+EOF
+
+  std=`getNbErreurs $LOG_FILE 2>&1`
+  assertEquals "nombre [ERROR] trouvés" 2 $?
+
+}
+
+testGetNbErreurs_quandEspaceErrorEspace_alorsRetourneUneErreur(){
+  cat > $LOG_FILE << EOF
+Bonjour ERROR : Erreur applicative :null
+EOF
+
+  std=`getNbErreurs $LOG_FILE 2>&1`
+  assertEquals "nombre [ERROR] trouvés" 1 $?
+
+}
+
+
+testGetNbErreursDistinctes_quandEspaceCrochetChevronError_retourneTroisErreurs(){
 
 	cat > $LOG_FILE << EOF
+[01/07/2011 01:29:12.001-http-a-8080-10$549007] ERROR An error has occured during search
+[01/07/2011 09:42:45.579-http-a-8080-12$7984459] [ERROR] Unable to create account 
+[01/07/2011 09:42:45.579-http-a-8080-12$7984459] ERROR  Unable to create account 
+
+EOF
+
+	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
+	assertEquals "nombre <ERROR> trouvés" "3" "$?"
+}
+
+testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
+
+  cat > $LOG_FILE << EOF
 [01/07/2011 01:29:12.001-http-a-8080-10$549007] <ERROR> An error has occured during search
 [01/07/2011 09:42:45.579-http-a-8080-12$7984459] <ERROR> Unable to create account 
 [01/07/2011 09:42:45.579-http-a-8080-12$7984459] <ERROR> Unable to create account 
 
 EOF
 
-	std=`getNbErreursDistinctes $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> trouvés" 2 $?
-	assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account 
+  std=`getNbErreursDistinctes $LOG_FILE 2>&1`
+  assertEquals "nombre <ERROR> trouvés" 2 $?
+  assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account 
       1  <ERROR> An error has occured during search" "${std}"
 }
+
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_alors_compter_une_seule_fois(){
 
@@ -68,7 +104,6 @@ EOF
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_id_differents_alors_compter_une_seule_fois(){
-
 	cat > $LOG_FILE << EOF
 [01/07/2011 14:00:10.488-http-a-8080-22$17977519] <ERROR> Unable to get cv for candidat id=11111111111
 [01/07/2011 14:00:10.488-http-a-8080-22$17977519] <ERROR> Unable to get cv for candidat id=123456
@@ -78,6 +113,18 @@ EOF
 	assertEquals "nombre <ERROR> différentes trouvés" 1 $?
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
 	assertEquals "detail des erreurs" "      2  <ERROR> Unable to get cv for candidat id=XXX" "${std}"
+}
+
+testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_dates_differentes_alors_compter_une_seule_fois(){
+  cat > $LOG_FILE << EOF
+[ERROR] - 10/07/2011 23:11:30 : fr.smile.fwk.base.ServletBase  - ATTENTION : Erreur applicative :null
+EOF
+
+  std=`getNbErreursDistinctes $LOG_FILE 2>&1`
+  assertEquals "nombre <ERROR> différentes trouvés" 1 $?
+  # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
+  assertEquals "detail des erreurs" "      1  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - ATTENTION : Erreur applicative :null" "${std}"
+
 }
 
 testRendMailAnonyme_remplace_mot_contenant_email_par_mailXXX(){

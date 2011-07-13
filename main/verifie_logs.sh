@@ -2,16 +2,17 @@
 
 getNbErreurs(){
 	logFile=$1
-	nbErreurs=`grep -c "<ERROR>" ${logFile}`
+	nbErreurs=`grep -wc "ERROR" ${logFile}`
 	return $nbErreurs;
 }
 
 getNbErreursDistinctes(){
  	logFile=$1
 	tempLog='/tmp/verifie_logs.log'
-	grep "<ERROR>" ${logFile} | awk -F] '{print $2}' > ${tempLog}
+	grep -w "ERROR" ${logFile} | awk -F] '{print $2}' > ${tempLog}
 	rendIdAnonyme ${tempLog} > ${tempLog}_sans_id
-	rendEmailAnonyme ${tempLog}_sans_id | sort | uniq -c > ${tempLog}_resume
+	aplatitDateJusqueProchainEspace ${tempLog}_sans_id > ${tempLog}_sans_id_ni_date
+	rendEmailAnonyme ${tempLog}_sans_id_ni_date | sort | uniq -c > ${tempLog}_resume
 	sort -nr ${tempLog}_resume >&2
 	nbErreurs=`cat ${tempLog}_resume | wc -l`
 	rm -f $tempLog*
