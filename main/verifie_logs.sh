@@ -2,8 +2,7 @@
 
 getNbErreurs(){
 	logFile=$1
-	nbErreurs=`grep -wc "ERROR" ${logFile}`
-	return $nbErreurs;
+	grep -wc "ERROR" ${logFile}
 }
 
 getNbErreursDistinctes(){

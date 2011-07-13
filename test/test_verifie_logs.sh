@@ -10,7 +10,7 @@ testGetNbErreurs_quandDeuxErreursDifferentes_alorsRetourneDeuxErreurs(){
 EOF
 
 	std=`getNbErreurs $LOG_FILE 2>&1`
-	assertEquals "nombre <ERROR> trouvés" 2 $?
+	assertEquals "nombre <ERROR> trouvés" "2" "$std"
 }
 
 testGetNbErreurs_quandCrochetErrorCrochet_alorsRetourneDeuxErreurs(){
@@ -20,7 +20,7 @@ testGetNbErreurs_quandCrochetErrorCrochet_alorsRetourneDeuxErreurs(){
 EOF
 
   std=`getNbErreurs $LOG_FILE 2>&1`
-  assertEquals "nombre [ERROR] trouvés" 2 $?
+  assertEquals "nombre [ERROR] trouvés" "2" "$std"
 
 }
 
@@ -30,7 +30,21 @@ Bonjour ERROR : Erreur applicative :null
 EOF
 
   std=`getNbErreurs $LOG_FILE 2>&1`
-  assertEquals "nombre [ERROR] trouvés" 1 $?
+  assertEquals "nombre [ERROR] trouvés" "1" "$std"
+
+}
+
+testGetNbErreurs_quandPlusDe255Error_alorsRetournePlusDe255Error(){
+  cat > $LOG_FILE << EOF
+Bonjour ERROR : Erreur applicative :null
+EOF
+
+	for ((i=0; i < 1000;i++)); do
+		echo "ERROR $i" >> $LOG_FILE;
+	done
+
+  std=`getNbErreurs $LOG_FILE 2>&1`
+  assertEquals "nombre [ERROR] trouvés" "1001" "${std}"
 
 }
 
