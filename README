@@ -6,6 +6,7 @@ Il y a un exemple d'utilisation dans main_example.sh
 
 
 TODO
+- s'affranchir des mots qui se terminent par .docx ou .doc
 - faire un lien externe sur git pour la partie commune
 - se baser sur un liste d'erreurs connues
 - concatener les logs de plusieurs serveurs
