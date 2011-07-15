@@ -32,3 +32,9 @@ aplatitDateJusqueProchainEspace() {
 	logFile=$1
 	sed 's#[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
 }
+
+aplatitDocumentEtParent(){
+	logFile=$1
+	sed 's#/[[:alnum:]\_]*/[[:alnum:]\_]*\.docx\{0,1\}#/XXX/document#g' $logFile
+
+}

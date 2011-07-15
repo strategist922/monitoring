@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 export SHUNIT2_SCRIPTS=../lib/shunit2-2.1.6/src
 
@@ -47,7 +47,6 @@ EOF
   assertEquals "nombre [ERROR] trouvés" "1001" "${std}"
 
 }
-
 
 testGetNbErreursDistinctes_quandEspaceCrochetChevronError_afficheTroisErreurs(){
 
@@ -170,6 +169,26 @@ testAplatitDate_remplace_dateHeureEtIds_par_XX(){
 	ligneNettoyee=`aplatitDateJusqueProchainEspace ${LOG_FILE}`
 	assertEquals "date aplatie" "<ERROR> [XX/XX/XXXX XX:XX:XX] Unable to create account" "${ligneNettoyee}"
 }
+
+testAplatitDocumentEtParent_quandDocumentPointDoc_remplaceParPointDocument(){
+	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.doc" > $LOG_FILE
+	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
+	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
+}
+
+testAplatitDocumentEtParent_quandDocumentPointDocEtUndescore_remplaceParPointDocument(){
+	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD_1749F448A1EC4E69C25455C/cv_decs.doc" > $LOG_FILE
+	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
+	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
+}
+
+testAplatitDocumentEtParent_quandDocumentPointDocx_remplaceParPointDocument(){
+	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.docx" > $LOG_FILE
+	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
+	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
+}
+
+
 
 oneTimeSetUp(){
 	. ../main/verifie_logs.sh
