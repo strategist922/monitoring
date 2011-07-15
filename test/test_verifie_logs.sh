@@ -188,6 +188,13 @@ testAplatitDocumentEtParent_quandDocumentPointDocx_remplaceParPointDocument(){
 	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
 }
 
+testAplatitDocumentEtParent_quandDocumentPointPDF_remplaceParPointDocument(){
+	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.pdf" > $LOG_FILE
+	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
+	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
+}
+
+
 
 
 oneTimeSetUp(){
