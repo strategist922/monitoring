@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 export SHUNIT2_SCRIPTS=../lib/shunit2-2.1.6/src
 
@@ -58,7 +58,7 @@ testGetNbErreursDistinctes_quandEspaceCrochetChevronError_afficheTroisErreurs(){
 EOF
 
 	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-	assertEquals "Total ERROR distinct :  3" "$std"
+	assertEquals "nombre ERROR distinctes" "3" "$std"
 }
 
 testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
@@ -71,7 +71,7 @@ testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
 EOF
 
   std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-  assertEquals "message stdout" "Total ERROR distinct :  2" "$std"
+  assertEquals "nombre ERROR distinctes" "2" "$std"
 
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
   assertEquals "message stderr" "      2  <ERROR> Unable to create account 
@@ -89,7 +89,7 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_alors_compter_une_seule
 EOF
 
 	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-	assertEquals "Total ERROR distinct :  2" "$std"
+	assertEquals "nombre ERROR distinctes" "2" "$std"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_et_dates_differentes_alors_compter_une_seule_fois(){
@@ -101,7 +101,7 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_et_dates_differentes_al
 EOF
 
 	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-	assertEquals "Total ERROR distinct :  1" "$std"
+	assertEquals "nombre ERROR distinctes" "1" "$std"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_emails_differents_alors_compter_une_seule_fois(){
@@ -113,7 +113,7 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_emails_differents_
 EOF
 	
 	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-	assertEquals "Total ERROR distinct :  1" "$std"
+	assertEquals "nombre ERROR distinctes" "1" "$std"
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
 	assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account for candidat with email=mailXXX" "${stderr}"
@@ -126,7 +126,7 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_id_differents_alor
 EOF
 	
 	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-	assertEquals "Total ERROR distinct :  1" "$std"
+	assertEquals "nombre ERROR distinctes" "1" "$std"
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
 	assertEquals "detail des erreurs" "      2  <ERROR> Unable to get cv for candidat id=XXX" "${stderr}"
@@ -138,7 +138,7 @@ testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_dates_differentes_
 EOF
 
   stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-  assertEquals "Total ERROR distinct :  1" "$stdout"
+  assertEquals "nombre ERROR distinctes" "1" "$stdout"
 
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
