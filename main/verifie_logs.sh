@@ -30,7 +30,7 @@ rendIdAnonyme(){
 
 aplatitDateJusqueProchainEspace() {
 	logFile=$1
-	sed 's#[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
+	sed 's#[0-9][0-9]/[0-9][0-9]/\([0-9]\)\{4\} [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
 }
 
 aplatitDocumentEtParent(){
