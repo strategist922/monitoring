@@ -13,7 +13,7 @@ getNbErreursDistinctes(){
 	aplatitDateJusqueProchainEspace ${tempLog}_sans_id > ${tempLog}_sans_id_ni_date
 	rendEmailAnonyme ${tempLog}_sans_id_ni_date | sort | uniq -c > ${tempLog}_resume
 	nbErreurs=`cat ${tempLog}_resume | wc -l`
-	echo "Total ERROR distinct :  $nbErreurs"
+	echo "$nbErreurs"
 	sort -nr ${tempLog}_resume >&2
 	rm -f $tempLog*
 }
@@ -30,7 +30,7 @@ rendIdAnonyme(){
 
 aplatitDateJusqueProchainEspace() {
 	logFile=$1
-	sed 's#[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
+	sed 's#[0-9][0-9]/[0-9][0-9]/\([0-9]\)\{4\} [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
 }
 
 aplatitDocumentEtParent(){
