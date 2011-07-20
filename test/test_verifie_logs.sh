@@ -143,8 +143,22 @@ EOF
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
   assertEquals "detail des erreurs" "      1  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - ATTENTION : Erreur applicative :null" "${stderr}"
-
 }
+
+testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_docs_differents_alors_compter_une_seule_fois(){
+  cat > $LOG_FILE << EOF
+[ERROR] - 10/07/2011 23:11:30 : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : /donnees/postuler_librement/abcd/cv.doc
+[ERROR] - 10/07/2011 23:11:30 : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : /donnees/postuler_librement/97A1EC4E69C25455C/document.pdf
+EOF
+
+  stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR distinctes" "1" "$stdout"
+
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
+  # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
+  assertEquals "detail des erreurs" "      2  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "${stderr}"
+}
+
 
 testRendMailAnonyme_remplace_mot_contenant_email_par_mailXXX(){
 	echo "with email=dupond@mail.com incorrect" > $LOG_FILE
@@ -181,8 +195,6 @@ testAplatitDocumentEtParent_quandDocumentPointDOCMajuscules_remplaceParPointDocu
 	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
 	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
 }
-
-
 
 testAplatitDocumentEtParent_quandDocumentPointDocEtUndescore_remplaceParPointDocument(){
 	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD_1749F448A1EC4E69C25455C/cv_decs.doc" > $LOG_FILE

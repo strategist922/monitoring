@@ -11,7 +11,8 @@ getNbErreursDistinctes(){
 	grep -w "ERROR" ${logFile} | awk -F] '{print $2}' > ${tempLog}
 	rendIdAnonyme ${tempLog} > ${tempLog}_sans_id
 	aplatitDateJusqueProchainEspace ${tempLog}_sans_id > ${tempLog}_sans_id_ni_date
-	rendEmailAnonyme ${tempLog}_sans_id_ni_date | sort | uniq -c > ${tempLog}_resume
+  aplatitDocumentEtParent ${tempLog}_sans_id_ni_date > ${tempLog}_sans_id_ni_date_ni_docs
+	rendEmailAnonyme ${tempLog}_sans_id_ni_date_ni_docs | sort | uniq -c > ${tempLog}_resume
 	nbErreurs=`cat ${tempLog}_resume | wc -l`
 	echo "$nbErreurs"
 	sort -nr ${tempLog}_resume >&2
