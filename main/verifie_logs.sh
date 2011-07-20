@@ -35,6 +35,6 @@ aplatitDateJusqueProchainEspace() {
 
 aplatitDocumentEtParent(){
 	logFile=$1
-	sed 's#\.pdf#\.doc#g' $logFile | sed 's#/[[:alnum:]\_]*/[[:alnum:]\_]*\.docx\{0,1\}#/XXX/document#g'
+	sed 's#\.pdf#\.doc#gi' $logFile | sed 's#/[[:alnum:]\_]*/[[:alnum:]\_]*\.docx\{0,1\}#/XXX/document#gi'
 
 }

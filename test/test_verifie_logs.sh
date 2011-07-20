@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 export SHUNIT2_SCRIPTS=../lib/shunit2-2.1.6/src
 
@@ -176,6 +176,14 @@ testAplatitDocumentEtParent_quandDocumentPointDoc_remplaceParPointDocument(){
 	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
 }
 
+testAplatitDocumentEtParent_quandDocumentPointDOCMajuscules_remplaceParPointDocument(){
+	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.DOC" > $LOG_FILE
+	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
+	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
+}
+
+
+
 testAplatitDocumentEtParent_quandDocumentPointDocEtUndescore_remplaceParPointDocument(){
 	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD_1749F448A1EC4E69C25455C/cv_decs.doc" > $LOG_FILE
 	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
@@ -188,8 +196,14 @@ testAplatitDocumentEtParent_quandDocumentPointDocx_remplaceParPointDocument(){
 	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
 }
 
-testAplatitDocumentEtParent_quandDocumentPointPDF_remplaceParPointDocument(){
+testAplatitDocumentEtParent_quandDocumentPointPdf_remplaceParPointDocument(){
 	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.pdf" > $LOG_FILE
+	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
+	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
+}
+
+testAplatitDocumentEtParent_quandDocumentPointPDFMajuscules_remplaceParPointDocument(){
+	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.PDF" > $LOG_FILE
 	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
 	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
 }
