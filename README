@@ -1,12 +1,55 @@
 Ensemble de fonctions qui permettent de monitorer les logs (recette, production), si on dépasse un nombre d'erreurs total ou distinctes.
 
-Intégré à Hudson, nous l'utilisons pour réduire la boucle de feedback car les MEP de JSP peuvent être très fréquentes. 
+Intégré à Hudson, nous l'utilisons pour réduire la boucle de feedback et être alertée très vite quand il y a un problème en prod. 
 
-Il y a un exemple d'utilisation dans main_example.sh
+* Il y a un exemple d'utilisation dans main_example.sh
+* Description du script : http://www.barreverte.fr/etre-alerte-quand-une-nouvelle-erreur-squatte-nos-logs
+* Retour d'expérience : http://devsnotebook.free.fr/index.php?post/Retour-d-experience-sur-le-monitoring-des-logs
 
+-------------
+-- USAGE
+-------------
+- ouvrir le fichier main/main_example.sh. Renseigner les variables et corriger les scp. Ajouter les clefs ssh pour ne plus avoir de prompt au sujet des mots de passe.
+- aller dans le repertoire main et executer ./main_example.sh. Exemple d'output : 
 
-TODO
-- s'affranchir des mots qui se terminent par .docx ou .doc
-- faire un lien externe sur git pour la partie commune
+	lundi 19 septembre 2011, 18:45:49 (UTC+0200)
+
+	SEUILS
+  	d'erreurs total : 225
+		d'erreurs distinctes : 15
+
+	Nombre d'erreurs au total : 220
+
+     52  <ERROR> Error building bean
+      8  <ERROR> An error has occured during search
+      7  <ERROR> Unable to get cv for candidat id=XXX
+      3  <ERROR> Unable to log for login = mailXXX / password = XXXX
+      3  <ERROR> Unable to log for login = mailXXX / password = Titus
+      2  <ERROR> Unable to manage Profil Cv for candidate=mailXXX[isNew=true,score=XXXX=mailXXX={XXXX=mailXXX},isNewsletterNew=false,sessionBean=mailXXX
+      2  <ERROR> NewsLetter subscribing failed for email 'null'
+      1  <ERROR> Unable to  suspend profil Alert for candidat : mailXXX[isNew=false,score=XXXX=mailXXX={XXXX=mailXXX},isNewsletterNew=false,sessionBean=mailXXX
+
+	Nombre d'erreurs distinctes : 8
+
+- accessoirement, créer un job hudson pour lancer ce script tous les jours, en fin de journée
+- accessoirement, installer et configurer plot dans hudson. Cela vous permettra d'avoir un historique et d'ajuster vos seuils d'alerte.
+		http://wiki.hudson-ci.org/display/HUDSON/Plot+Plugin
+		configurer la tâche pour pointer sur les fichiers monitoring/reports/erreurs_totales et monitoring/reports/erreurs_distinctes
+
+-------------
+-- TODO
+-------------
+- faire un lien externe sur git pour la partie commun -> pas possible
+- failer quand il y a une erreur spécifique "Catalina"
 - se baser sur un liste d'erreurs connues
-- concatener les logs de plusieurs serveurs
+- doc
+
+-------------
+-- DONE
+-------------
+- concat les logs de plusieurs serveurs
+- regles sur les documents docx, pdf, etc.
+- generation de fichiers compatibles plot (http://wiki.hudson-ci.org/display/HUDSON/Plot+Plugin) pour hudson/jenkins. 
+Il faut installer plot (un click...) et configurer la tâche pour pointer sur les fichiers monitoring/reports/erreurs_totales et monitoring/reports/erreurs_distinctes
+
+

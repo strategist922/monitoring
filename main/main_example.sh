@@ -1,34 +1,23 @@
 #!/bin/bash
 
-SEUIL_ERREURS_TOTAL=10
-SEUIL_ERREURS_DISTINCTES=2
+date
 
-LOG_FILE=./sampleKeljob.log
+SEUIL_ERREURS_DISTINCTES=15
+SEUIL_ERREURS_TOTAL=225
+SERVEURS="serveur01 serveur02 serveur03 serveur04"
+LOG_FILE=./monApp.log
+
 
 . display.sh
 . verifie_logs.sh
 
-date
+if [ -f $LOG_FILE ]; then rm $LOG_FILE; fi
+touch $LOG_FILE
+for serveur in $SERVEURS
+do
+	scp user@${serveur}:/var/log/apps/monApp/webapp.log /tmp/monApp-${serveur}.log
+  cat /tmp/monApp-${serveur}.log >> $LOG_FILE
+done
 
-echo ""
-nbErreursTotal=`getNbErreurs $LOG_FILE`
-echo "Nombre d'erreurs au total : $nbErreursTotal"
-
-echo ""
-nbErreursDistinctes=`getNbErreursDistinctes $LOG_FILE`
-echo ""
-echo "Nombre d'erreurs distinctes : $nbErreursDistinctes"
-echo ""
-
-if [ $nbErreursTotal -gt $SEUIL_ERREURS_TOTAL ]; then
-  afficheErreur "[FAILED] Le nombre d'erreurs totales a dépassé le seuil de $SEUIL_ERREURS_TOTAL" 
-  exit 1
-fi
-
-if [ $nbErreursDistinctes -gt $SEUIL_ERREURS_DISTINCTES ]; then
-  afficheErreur "[FAILED] Le nombre d'erreurs distinctes a dépassé le seuil de $SEUIL_ERREURS_DISTINCTES" 
-  exit 2
-fi
-
-
+./parse_file.sh "$LOG_FILE" "$SEUIL_ERREURS_DISTINCTES" "$SEUIL_ERREURS_TOTAL"
 

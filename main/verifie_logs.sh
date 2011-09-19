@@ -1,40 +1,75 @@
-#/bin/bash
+#!/bin/bash
+
+RULES_DIR="../main/rules/rules-enabled"
 
 getNbErreurs(){
-  logFile=$1
-  grep -wc "ERROR" ${logFile}
+	logFile=$1
+	grep -wc "ERROR" ${logFile}
 }
 
 getNbErreursDistinctes(){
-  logFile=$1
-  tempLog='/tmp/verifie_logs.log'
-  grep -w "ERROR" ${logFile} | awk -F] '{print $2}' > ${tempLog}
-  rendIdAnonyme ${tempLog} > ${tempLog}_sans_id
-  aplatitDateJusqueProchainEspace ${tempLog}_sans_id > ${tempLog}_sans_id_ni_date
-  aplatitDocumentEtParent ${tempLog}_sans_id_ni_date > ${tempLog}_sans_id_ni_date_ni_docs
-  rendEmailAnonyme ${tempLog}_sans_id_ni_date_ni_docs | sort | uniq -c > ${tempLog}_resume
-  nbErreurs=`cat ${tempLog}_resume | wc -l`
-  echo "$nbErreurs"
-  sort -nr ${tempLog}_resume >&2
-  rm -f $tempLog*
+ 	logFile=$1
+	tempLog='/tmp/verifie_logs.log'
+	tempRules='/tmp/aden.rules'
+	grep -w "ERROR" ${logFile} | awk -F] '{print $2}' > ${tempLog}
+	agregeLesFichierDeRegles ${tempRules}
+	lectureEtApplicationDesRegles ${tempLog} ${tempRules} | sort | uniq -c > ${tempLog}_resume
+	nbErreurs=`cat ${tempLog}_resume | wc -l`
+	echo "$nbErreurs"
+	sort -nr ${tempLog}_resume >&2
+	rm -f $tempLog*
 }
 
 rendEmailAnonyme(){
-  logFile=$1
-  sed 's/[.a-zA-Z0-9\_\-]*@[.a-zA-Z0-9\-\-]*/mailXXX/g' $logFile 
+	logFile=$1
+	sed -f ${RULES_DIR}/rendEmailAnonyme.rule $logFile
 }
 
 rendIdAnonyme(){
-  logFile=$1
-  sed 's/id=[.a-zA-Z0-9\_\-]*/id=XXX/g' $logFile 
+	logFile=$1
+  sed -f ${RULES_DIR}/rendIdAnonyme.rule $logFile
 }
 
 aplatitDateJusqueProchainEspace() {
-  logFile=$1
-  sed 's#[0-9][0-9]/[0-9][0-9]/\([0-9]\)\{4\} [0-9][0-9]:[0-9][0-9][.:a-zA-Z0-9\_\-]*#XX/XX/XXXX XX:XX:XX#g' $logFile 
+	logFile=$1
+  sed -f ${RULES_DIR}/aplatitDate.rule $logFile 
 }
 
 aplatitDocumentEtParent(){
-  logFile=$1
-  sed 's#\.pdf#\.doc#gi' $logFile | sed 's#/[[:alnum:]\_]*/[[:alnum:]\_]*\.docx\{0,1\}#/XXX/document#gi'
+	logFile=$1
+  sed -f ${RULES_DIR}/aplatitDocumentEtParent.rule $logFile 
 }
+
+aplatitMotContenantChiffre(){
+ 	logFile=$1
+  sed -f ${RULES_DIR}/aplatitMotContenantChiffre.rule $logFile  
+}
+
+aplatitLaVilleEtDepartement(){
+ 	logFile=$1
+  sed -f ${RULES_DIR}/aplatitLaVilleEtDepartement.rule $logFile  
+}
+
+aplatitSmileTemplate(){
+ 	logFile=$1
+  sed -f ${RULES_DIR}/aplatitSmileTemplate.rule $logFile  
+}
+
+agregeLesFichierDeRegles() {
+	# on supprime le cfichier aggrégé si il existe
+	rm -f $1
+	# on agrège tous les fichiers de règles (uniquement *.rule )
+	for rule in ${RULES_DIR}/*.rule
+	do
+	   cat $rule >> $1
+	done
+}
+
+lectureEtApplicationDesRegles() {
+	logFile=$1
+	ruleFile=$2
+	sed -f $ruleFile $logFile
+}
+
+
+

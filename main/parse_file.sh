@@ -15,6 +15,11 @@ date
 . verifie_logs.sh
 
 echo ""
+echo "SEUILS"
+echo "  d'erreurs total : $SEUIL_ERREURS_TOTAL"
+echo "	d'erreurs distinctes : $SEUIL_ERREURS_DISTINCTES"
+
+echo ""
 nbErreursTotal=`getNbErreurs $LOG_FILE`
 echo "Nombre d'erreurs au total : $nbErreursTotal"
 
