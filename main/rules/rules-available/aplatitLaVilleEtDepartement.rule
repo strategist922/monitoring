@@ -1,0 +1,5 @@
+# aplatit la ville 
+s#Code ville : .* Departement#Code ville : XXXX Departement#g
+
+# aplatit la Département
+s#Departement : .*: - Erreur#Departement : XXXX: - Erreur#g

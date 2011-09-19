@@ -1,0 +1,2 @@
+# aplatit mot contenant chiffre
+s#\(\b\)[a-zA-Z0-9(),/\"-]*[0-9][a-zA-Z0-9(),/\"-]*\(\b\)#\1XXXX\2#g

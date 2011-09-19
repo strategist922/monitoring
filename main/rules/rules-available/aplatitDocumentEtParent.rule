@@ -1,0 +1,5 @@
+# aplatit document et parent (part 1)
+s#\.pdf#\.doc#gi
+
+# aplatit document et parent (part 2)
+s#/[[:alnum:]\_]*/[[:alnum:]\_]*\.docx\{0,1\}#/XXX/document#gi
