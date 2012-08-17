@@ -1,0 +1,3 @@
+# aplatit les requetes en erreur Endeca en "aplatissant" les paramêtres qui on générés l'erreurs
+s#Pas de réponse Endeca avec la requête : .*#Pas de réponse Endeca avec la requête : XXXX#g
+
