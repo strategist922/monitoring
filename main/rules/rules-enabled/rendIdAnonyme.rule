@@ -1,2 +1,1 @@
-# rend id anonyme
-s/id=[.a-zA-Z0-9\_\-]*/id=XXX/g
+../rules-available/rendIdAnonyme.rule

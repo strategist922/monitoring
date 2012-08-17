@@ -1,2 +1,1 @@
-# rend email anonyme
-s/[.a-zA-Z0-9\_\-]*@[.a-zA-Z0-9\-\-]*/mailXXX/g
+../rules-available/rendEmailAnonyme.rule

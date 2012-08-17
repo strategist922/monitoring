@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$#" -ne "3" ]; then
+if [ "$#" -lt "3" ]; then
 	echo "Usage : ./parse_file.sh <LOG_FILE> <SEUIL_ERREURS_DISTINCTES> <SEUIL_ERREURS_TOTAL>"
 	exit 99
 fi
@@ -13,11 +13,11 @@ date
 
 . display.sh
 . verifie_logs.sh
+. repartition.sh
 
 echo ""
-echo "SEUILS"
-echo "  d'erreurs total : $SEUIL_ERREURS_TOTAL"
-echo "	d'erreurs distinctes : $SEUIL_ERREURS_DISTINCTES"
+echo "(seuil erreurs total : $SEUIL_ERREURS_TOTAL)"
+echo "(seuil erreurs distinctes : $SEUIL_ERREURS_DISTINCTES)"
 
 echo ""
 nbErreursTotal=`getNbErreurs $LOG_FILE`
@@ -37,6 +37,8 @@ if [ $? -eq 0 ]; then
 	echo "YVALUE=${nbErreursDistinctes}" > ../reports/erreurs_distinctes
 fi
 
+# calcule la répartition sur la journée
+calculeLaRepartition $LOG_FILE
 
 if [ $nbErreursTotal -gt $SEUIL_ERREURS_TOTAL ]; then
 	afficheErreur "[FAILED] Le nombre d'erreurs totales a dépassé le seuil de $SEUIL_ERREURS_TOTAL" 
@@ -44,7 +46,7 @@ if [ $nbErreursTotal -gt $SEUIL_ERREURS_TOTAL ]; then
 fi
 
 if [ $nbErreursDistinctes -gt $SEUIL_ERREURS_DISTINCTES ]; then
-  afficheErreur "[FAILED] Le nombre d'erreurs distinctes a dépassé le seuil de $SEUIL_ERREURS_DISTINCTES" 
+  	afficheErreur "[FAILED] Le nombre d'erreurs distinctes a dépassé le seuil de $SEUIL_ERREURS_DISTINCTES" 
 	exit 2
 fi
 

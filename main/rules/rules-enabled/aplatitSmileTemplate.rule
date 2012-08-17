@@ -1,3 +1,1 @@
-# aplatit la date jusque au prochain espace
-s#Template Introuvable : .*#Template Introuvable : XXXX#g
-
+../rules-available/aplatitSmileTemplate.rule

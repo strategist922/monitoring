@@ -2,6 +2,10 @@
 
 export SHUNIT2_SCRIPTS=../lib/shunit2-2.1.6/src
 
+#########################################################################################
+## Tests GetNbErreurs
+#########################################################################################
+
 testGetNbErreurs_quandDeuxErreursDifferentes_alorsRetourneDeuxErreurs(){
 
 	cat > $LOG_FILE << EOF
@@ -47,6 +51,10 @@ EOF
   assertEquals "nombre [ERROR] trouvés" "1001" "${std}"
 
 }
+
+#########################################################################################
+## Tests GetNbErreursDistinctes
+#########################################################################################
 
 testGetNbErreursDistinctes_quandEspaceCrochetChevronError_afficheTroisErreurs(){
 
@@ -159,69 +167,19 @@ EOF
   assertEquals "detail des erreurs" "      2  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "${stderr}"
 }
 
+testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_mots_contenant_chiffre_alors_compter_une_seule_fois(){
+  cat > $LOG_FILE << EOF
+[ERROR] - 10/07/2011 23:11:30 : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : bonjour1
+[ERROR] - 10/07/2011 23:11:30 : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : bonjour2
+EOF
 
-testRendMailAnonyme_remplace_mot_contenant_email_par_mailXXX(){
-	echo "with email=dupond@mail.com incorrect" > $LOG_FILE
-	mailNettoye=`rendEmailAnonyme ${LOG_FILE}`
-	assertEquals "email anonymé" "with email=mailXXX incorrect" "${mailNettoye}"
+  stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR distinctes" "1" "$stdout"
+
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
+  # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
+  assertEquals "detail des erreurs" "      2  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : XXXX" "${stderr}"
 }
-
-testRendIdAnonyme_remplace_mot_contenant_idEgal_par_idEgalXXX(){
-	echo "candidat id=743251 bonjour" > $LOG_FILE
-	idNettoye=`rendIdAnonyme ${LOG_FILE}`
-	assertEquals "id anonymé" "candidat id=XXX bonjour" "${idNettoye}"
-}
-
-testAplatitDate_remplace_dateHeure_par_XX(){
-	echo "<ERROR> [01/07/2011 09:42] Unable to create account" > $LOG_FILE
-	ligneNettoyee=`aplatitDateJusqueProchainEspace ${LOG_FILE}`
-	assertEquals "date aplatie" "<ERROR> [XX/XX/XXXX XX:XX:XX] Unable to create account" "${ligneNettoyee}"
-}
-
-testAplatitDate_remplace_dateHeureEtIds_par_XX(){
-	echo "<ERROR> [01/07/2011 09:42:45.579-http-a-8080-12$7984459] Unable to create account" > $LOG_FILE
-	ligneNettoyee=`aplatitDateJusqueProchainEspace ${LOG_FILE}`
-	assertEquals "date aplatie" "<ERROR> [XX/XX/XXXX XX:XX:XX] Unable to create account" "${ligneNettoyee}"
-}
-
-testAplatitDocumentEtParent_quandDocumentPointDoc_remplaceParPointDocument(){
-	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.doc" > $LOG_FILE
-	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
-	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
-}
-
-testAplatitDocumentEtParent_quandDocumentPointDOCMajuscules_remplaceParPointDocument(){
-	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.DOC" > $LOG_FILE
-	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
-	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
-}
-
-testAplatitDocumentEtParent_quandDocumentPointDocEtUndescore_remplaceParPointDocument(){
-	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD_1749F448A1EC4E69C25455C/cv_decs.doc" > $LOG_FILE
-	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
-	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
-}
-
-testAplatitDocumentEtParent_quandDocumentPointDocx_remplaceParPointDocument(){
-	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.docx" > $LOG_FILE
-	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
-	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
-}
-
-testAplatitDocumentEtParent_quandDocumentPointPdf_remplaceParPointDocument(){
-	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.pdf" > $LOG_FILE
-	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
-	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
-}
-
-testAplatitDocumentEtParent_quandDocumentPointPDFMajuscules_remplaceParPointDocument(){
-	echo "Impossible de supprimer le fichier : /donnees/postuler_librement/5DAC3679773DD1749F448A1EC4E69C25455C/cv.PDF" > $LOG_FILE
-	ligneNettoyee=`aplatitDocumentEtParent $LOG_FILE`
-	assertEquals "document aplatit" "Impossible de supprimer le fichier : /donnees/postuler_librement/XXX/document" "$ligneNettoyee"
-}
-
-
-
 
 oneTimeSetUp(){
 	. ../main/verifie_logs.sh
