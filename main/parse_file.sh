@@ -9,8 +9,6 @@ LOG_FILE=$1
 SEUIL_ERREURS_DISTINCTES=$2
 SEUIL_ERREURS_TOTAL=$3
 
-date
-
 . display.sh
 . verifie_logs.sh
 . repartition.sh
