@@ -39,14 +39,14 @@ Intégré à Hudson, nous l'utilisons pour réduire la boucle de feedback et êt
 -------------
 -- TODO
 -------------
-- faire un lien externe sur git pour la partie commun -> pas possible
-- failer quand il y a une erreur spécifique "Catalina"
 - se baser sur un liste d'erreurs connues
 - doc
 
 -------------
 -- DONE
 -------------
+- gestion erreur 500 sur log apache
+- faire un lien externe sur git pour la partie commun
 - concat les logs de plusieurs serveurs
 - regles sur les documents docx, pdf, etc.
 - generation de fichiers compatibles plot (http://wiki.hudson-ci.org/display/HUDSON/Plot+Plugin) pour hudson/jenkins. 
