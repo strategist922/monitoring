@@ -7,10 +7,12 @@ fi
 
 date
 
-echo "==========================================="
-echo "== recuperation du fichier $FILE_TO_GET"
-echo "==	sur $SERVEURS"
-echo "==========================================="
+. display.sh
+
+headerStart
+headerBody "recuperation du fichier $FILE_TO_GET"
+headerBody "  sur $SERVEURS"
+headerEnd 
  
 if [ -f "$LOG_FILE" ]; then rm "$LOG_FILE"; fi
 touch $LOG_FILE
