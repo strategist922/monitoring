@@ -5,14 +5,14 @@ if [ "$LOG_FILE" == "" ]; then
 	exit 9
 fi
 
-date
-
 . display.sh
 
 headerStart
 headerBody "recuperation du fichier $FILE_TO_GET"
 headerBody "  sur $SERVEURS"
 headerEnd 
+
+date
  
 if [ -f "$LOG_FILE" ]; then rm "$LOG_FILE"; fi
 touch $LOG_FILE
