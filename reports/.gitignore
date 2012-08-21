@@ -1,0 +1,7 @@
+#
+# NB This is a hack because I want an empty directory in github
+#
+# Ignore everything in this directory
+*
+# Except this file. 
+!.gitignore
