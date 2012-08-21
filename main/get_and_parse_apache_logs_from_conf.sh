@@ -25,6 +25,6 @@ if [ "$TOTAL_SERVER_ERROR" != 0 ]; then
 fi
 
 headerStart
-headerBody "Détail des erreurs : "
+headerBody "Détail des erreurs 500 : "
 headerEnd
 countDistinctInternalServerError $LOG_FILE
