@@ -28,14 +28,16 @@ echo ""
 echo "Nombre d'erreurs distinctes : $nbErreursDistinctes"
 echo ""
 
-# Ecrit les données dans un fichier à part pour le plugin plot d'hudson
+headerBody "Ecrit les données dans un fichier à part pour le plugin plot d'hudson"
 ls -d "../reports" > /dev/null
 if [ $? -eq 0 ]; then 
 	echo "YVALUE=${nbErreursTotal}" > ../reports/erreurs_totales
 	echo "YVALUE=${nbErreursDistinctes}" > ../reports/erreurs_distinctes
 fi
 
-# calcule la répartition sur la journée
+headerStart
+headerBody "Répartition des erreurs sur la journée"
+headerEnd
 calculeLaRepartition $LOG_FILE
 
 if [ $nbErreursTotal -gt $SEUIL_ERREURS_TOTAL ]; then
