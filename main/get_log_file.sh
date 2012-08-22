@@ -1,7 +1,22 @@
 #!/bin/bash
 
-if [ "$LOG_FILE" == "" ]; then
-	echo "You can't use this script without sourcing some variables. Check out propertiesFile.sh or get_and_parse_logs_from_conf.sh for details"
+PARAMS_COUNT=$#
+PARAMS_COUNT_EXPECTED=6
+if [ "$PARAMS_COUNT" == "$PARAMS_COUNT_EXPECTED" ]; then
+  LOG_FILE=$1
+  SERVEURS=$2
+  SERVEUR_USER=$3
+  FILE_TO_GET=$4
+  NOM_APPLICATION=$5
+  CONVERT_LOG_TO_UTF8=$6
+else
+	echo "You can't use this script without passing $PARAMS_COUNT_EXPECTED variables :"
+  echo '  LOG_FILE=$1
+  SERVEURS=$2
+  SERVEUR_USER=$3
+  FILE_TO_GET=$4
+  NOM_APPLICATION=$5
+  CONVERT_LOG_TO_UTF8=$6'
 	exit 9
 fi
 

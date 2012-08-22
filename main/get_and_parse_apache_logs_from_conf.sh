@@ -15,9 +15,7 @@ fi
 . verifie_apache_logs.sh
 . display.sh
 
-#TODO : si pas de paramètres, vérifier que les var sont settées. 
-#				sinon il en faut 6
-./get_log_file.sh #"$LOG_FILE" "$SERVEURS" "$SERVEUR_USER" "${FILE_TO_GET}" "${NOM_APPLICATION}" "$CONVERT_LOG_TO_UTF8"
+./get_log_file.sh "$APACHE_LOG_FILE" "$SERVEURS" "$SERVEUR_USER" "${APACHE_FILE_TO_GET}" "${NOM_APPLICATION}" "$CONVERT_LOG_TO_UTF8"
 
 TOTAL_SERVER_ERROR=`countTotalInternalServerError $LOG_FILE`
 if [ "$TOTAL_SERVER_ERROR" != 0 ]; then
