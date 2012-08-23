@@ -20,6 +20,19 @@ EOF
 	assertEquals "nombre erreurs 500 trouvés" "3" "$std"
 }
 
+testCountTotalInternalServerError_shouldHandleCompressedFile(){
+
+	cat > $LOG_FILE << EOF
+192.168.16.254 41.141.85.111, 192.168.16.254 - - [20/Aug/2012:20:11:24 +0200] "POST /rubrique/user/aj/uploadPhoto HTTP/1.1" 500 384 "http://www.mywebsite.com/rubrique/user/viewProfil" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.79 Safari/537.1" 34270413
+192.168.16.254 41.141.85.111, 192.168.16.254 - - [20/Aug/2012:20:12:36 +0200] "POST /rubrique/user/aj/uploadProut HTTP/1.1" 500 384 "http://www.mywebsite.com/rubrique/user/viewProfil" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.79 Safari/537.1" 32293878
+EOF
+
+  tar zcvf ${LOG_FILE}.gz ${LOG_FILE} > /dev/null 2>&1
+
+	std=`countTotalInternalServerError ${LOG_FILE}.gz 2>&1`
+	assertEquals "nombre erreurs 500 trouvés" "2" "$std"
+}
+
 testExtractUrlWhereErrorOccured(){
 
 	LOG_LINE='192.168.16.254 41.141.85.111, 192.168.16.254 - - [20/Aug/2012:20:12:36 +0200] \"POST /rubrique/user/aj/uploadPhoto HTTP/1.1" 500 384 \"http://www.mywebsite.com/rubrique/user/viewProfil\" \"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.79 Safari/537.1\" 32293878'
@@ -44,6 +57,20 @@ EOF
 	assertEquals "nombre <ERROR> trouvés" "$EXPECTED" "$std"
 }
 
+
+testCountDistinctInternalServerError_shouldHandleCompressedFile(){
+
+	cat > $LOG_FILE << EOF
+192.168.16.254 41.141.85.111, 192.168.16.254 - - [20/Aug/2012:20:12:36 +0200] "POST /rubrique/user/aj/uploadPhoto HTTP/1.1" 500 384 "http://www.mywebsite.com/rubrique/user/viewProfil" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.79 Safari/537.1" 32293878
+EOF
+
+  tar zcvf ${LOG_FILE}.gz ${LOG_FILE} > /dev/null 2>&1
+
+  EXPECTED="      1 POST /rubrique/user/aj/uploadPhoto HTTP/1.1"
+
+	std=`countDistinctInternalServerError ${LOG_FILE}.gz 2>&1`
+	assertEquals "nombre <ERROR> trouvés" "$EXPECTED" "$std"
+}
 
 testCountDistinctInternalServerError_shouldHandleDistinctErrorsAndSortThem(){
 
