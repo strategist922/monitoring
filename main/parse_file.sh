@@ -28,9 +28,10 @@ echo ""
 echo "Nombre d'erreurs distinctes : $nbErreursDistinctes"
 echo ""
 
-headerBody "Ecrit les données dans un fichier à part pour le plugin plot d'hudson"
+#Rapport jenkins
 ls -d "../reports" > /dev/null
 if [ $? -eq 0 ]; then 
+  headerBody "Ecrit les données dans un fichier à part pour le plugin plot de Jenkins"
 	echo "YVALUE=${nbErreursTotal}" > ../reports/erreurs_totales
 	echo "YVALUE=${nbErreursDistinctes}" > ../reports/erreurs_distinctes
 fi

@@ -26,3 +26,10 @@ TOTAL_SERVER_ERROR=`countTotalInternalServerError $APACHE_LOG_FILE`
 if [ "$TOTAL_SERVER_ERROR" != 0 ]; then
   afficheErreur "Il y a eu $TOTAL_SERVER_ERROR erreurs 500 ";
 fi
+
+#Rapports jenkins
+ls -d "../reports" > /dev/null
+if [ $? -eq 0 ]; then 
+  headerBody "Ecrit les données dans un fichier à part pour le plugin plot de Jenkins"
+	echo "YVALUE=${TOTAL_SERVER_ERROR}" > ../reports/erreurs_500_totales
+fi
