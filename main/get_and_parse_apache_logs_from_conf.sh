@@ -26,9 +26,10 @@ headerEnd
 countDistinctInternalServerError $APACHE_LOG_FILE
 
 TOTAL_SERVER_ERROR=`countTotalInternalServerError $APACHE_LOG_FILE`
-if [ "$TOTAL_SERVER_ERROR" != 0 ]; then
+echo "[INFO] Il y a eu $TOTAL_SERVER_ERROR erreurs 500 ";
+if [ "$TOTAL_SERVER_ERROR" -gt "$APACHE_SEUIL_ERREURS_500" ]; then
   echo ""
-  afficheErreur "[FAILED] Il y a eu $TOTAL_SERVER_ERROR erreurs 500 ";
+  afficheErreur "[FAILED] Il y a eu $TOTAL_SERVER_ERROR erreurs 500 (> seuil de $APACHE_SEUIL_ERREURS_500) ";
   CODE_RETOUR=30
   echo ""
 fi
