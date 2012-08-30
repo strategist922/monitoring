@@ -24,7 +24,6 @@ echo ""
 echo "Nombre d'erreurs distinctes : $nbErreursDistinctes"
 
 # Erreurs applicatives totales
-echo ""
 nbErreursTotal=`getNbErreurs $LOG_FILE`
 echo "Nombre d'erreurs au total : $nbErreursTotal"
 echo ""
