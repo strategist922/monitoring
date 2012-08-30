@@ -16,6 +16,7 @@ fi
 . display.sh
 
 ./get_log_file.sh "$APACHE_LOG_FILE" "$SERVEURS" "$SERVEUR_USER" "${APACHE_FILE_TO_GET}" "${NOM_APPLICATION}" "$CONVERT_LOG_TO_UTF8" "$COMPRESS_IF_TOO_BIG_MO"
+if [ "$?" != "0" ]; then exit "$?"; fi;
 
 headerStart
 headerBody "Détail des erreurs 500 : "
@@ -24,7 +25,9 @@ countDistinctInternalServerError $APACHE_LOG_FILE
 
 TOTAL_SERVER_ERROR=`countTotalInternalServerError $APACHE_LOG_FILE`
 if [ "$TOTAL_SERVER_ERROR" != 0 ]; then
-  afficheErreur "Il y a eu $TOTAL_SERVER_ERROR erreurs 500 ";
+  echo ""
+  afficheErreur "[FAILED] Il y a eu $TOTAL_SERVER_ERROR erreurs 500 ";
+  echo ""
 fi
 
 #Rapports jenkins
