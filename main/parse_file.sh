@@ -44,6 +44,7 @@ calculeLaRepartition $LOG_FILE
 
 if [ $nbErreursTotal -gt $SEUIL_ERREURS_TOTAL ]; then
 	afficheErreur "[FAILED] Le nombre d'erreurs totales a dépassé le seuil de $SEUIL_ERREURS_TOTAL" 
+	afficheErreur "		> réel : $nbErreursTotal"
 	exit 31
 else 
   echo ""
@@ -51,7 +52,9 @@ else
 fi
 
 if [ $nbErreursDistinctes -gt $SEUIL_ERREURS_DISTINCTES ]; then
-  	afficheErreur "[FAILED] Le nombre d'erreurs distinctes a dépassé le seuil de $SEUIL_ERREURS_DISTINCTES" 
+  afficheErreur "[FAILED] Le nombre d'erreurs distinctes a dépassé le seuil de $SEUIL_ERREURS_DISTINCTES" 
+  afficheErreur "   > réel : $nbErreursDistinctes"
+
 	exit 32
 else 
   echo "[SUCCESS] Le nombre d'erreurs applicatives distinctes n'a pas dépassé le seuil"
