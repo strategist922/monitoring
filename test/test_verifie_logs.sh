@@ -181,6 +181,21 @@ EOF
   assertEquals "detail des erreurs" "      2  - XX/XX/XXXX XX:XX:XX : fr.smile.fwk.base.ServletBase  - Impossible de supprimer le fichier : XXXX" "${stderr}"
 }
 
+
+testGetNbErreursDistinctes_quand_deux_erreurs_identiques_sur_erreur_rest_endeca(){
+  cat > $LOG_FILE << EOF
+[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l'exécution de lolollolo
+[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l'exécution de 808787870
+EOF
+
+  stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR distinctes" "1" "$stdout"
+
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
+  # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
+  assertEquals "detail des erreurs" "      2  - XX/XX/XXXX XX:XX:XX : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca XXXXXX" "${stderr}"
+}
+
 oneTimeSetUp(){
 	. ../main/verifie_logs.sh
 	LOG_FILE=${__shunit_tmpDir}/stlog

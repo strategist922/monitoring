@@ -1,0 +1,3 @@
+# aplatit les erreurs de connexion Endeca sur l'appli Rest
+s#com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca .*#com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca XXXXXX#g
+
