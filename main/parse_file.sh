@@ -38,6 +38,12 @@ if [ $? -eq 0 ]; then
 fi
 
 headerStart
+headerBody "spécifique lolo"
+getNbErreursDistinctes $LOG_FILE
+headerEnd
+
+
+headerStart
 headerBody "Répartition des erreurs sur la journée"
 headerEnd
 calculeLaRepartition $LOG_FILE

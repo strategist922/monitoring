@@ -20,6 +20,18 @@ getNbErreursDistinctes(){
 	rm -f $tempLog*
 }
 
+## affine les erreurs propre Catalina
+getNbErreursDistinctesForCatalina(){
+ 	logFile=$1
+	tempLog='/tmp/verifie_logs_catalina.log'
+	tempRules='/tmp/aden.rules'
+	grep -w "\[Catalina\]" ${logFile} -A 1 | grep -v "\[Catalina\]" | grep -v "\--" > ${tempLog}
+	agregeLesFichierDeRegles ${tempRules}
+	lectureEtApplicationDesRegles ${tempLog} ${tempRules} | sort | uniq -c > ${tempLog}_resume
+	sort -nr ${tempLog}_resume >&2
+	rm -f $tempLog*
+}
+
 rendEmailAnonyme(){
 	logFile=$1
 	sed -f ${RULES_DIR}/rendEmailAnonyme.rule $logFile
