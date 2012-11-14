@@ -21,7 +21,7 @@ getNbErreursDistinctes(){
 }
 
 ## affine les erreurs propre Catalina
-getNbErreursDistinctesForCatalina(){
+getNbErreursDistinctesPourCatalina(){
  	logFile=$1
 	tempLog='/tmp/verifie_logs_catalina.log'
 	tempRules='/tmp/aden.rules'

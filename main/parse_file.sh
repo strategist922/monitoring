@@ -28,6 +28,15 @@ nbErreursTotal=`getNbErreurs $LOG_FILE`
 echo "Nombre d'erreurs au total : $nbErreursTotal"
 echo ""
 
+if [ "$DISPLAY_CATALINA_ERROR" == "yes" ]; then
+headerStart
+headerBody "Répartition des erreurs Catalina"
+nbErreursCatalina=`getNbErreursDistinctesPourCatalina $LOG_FILE`
+echo ""
+echo "Nb erreurs Catalina $nbErreursCatalina"
+echo ""
+headerEnd
+
 
 # Rapport jenkins
 ls -d "../reports" > /dev/null
@@ -36,11 +45,6 @@ if [ $? -eq 0 ]; then
 	echo "YVALUE=${nbErreursTotal}" > ../reports/erreurs_totales
 	echo "YVALUE=${nbErreursDistinctes}" > ../reports/erreurs_distinctes
 fi
-
-headerStart
-headerBody "spécifique lolo"
-getNbErreursDistinctes $LOG_FILE
-headerEnd
 
 
 headerStart
