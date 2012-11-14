@@ -36,6 +36,7 @@ echo ""
 echo "Nb erreurs Catalina $nbErreursCatalina"
 echo ""
 headerEnd
+fi
 
 
 # Rapport jenkins
