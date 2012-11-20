@@ -197,6 +197,21 @@ EOF
 }
 
 
+testGetNbErreursDistinctes_quand_deux_erreurs_identiques_sur_erreur_rest_auto_completion(){
+  cat > $LOG_FILE << EOF
+[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.resources.LocationResource  - Erreur lors de la récupération de la ressource LocationResource [prefix=roquefort les
+[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.resources.LocationResource  - Erreur lors de la récupération de la ressource LocationResource [prefix=puteaux
+EOF
+
+  stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR distinctes" "1" "$stdout"
+
+  stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
+  # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
+  assertEquals "detail des erreurs" "      2  - XX/XX/XXXX XX:XX:XX : com.explorimmo.rest.resources.LocationResource  - Erreur lors de la récupération de la ressource LocationResource [prefix=XXXX" "${stderr}"
+}
+
+
 #########################################################################################
 ## Tests getNbErreursDistinctesPourCatalina
 #########################################################################################

@@ -1,0 +1,2 @@
+# aplatit les erreurs de connexion Endeca pour l'auto completion
+s#com.explorimmo.rest.resources.LocationResource  - Erreur lors de la récupération de la ressource LocationResource \[prefix=.*#com.explorimmo.rest.resources.LocationResource  - Erreur lors de la récupération de la ressource LocationResource \[prefix=XXXX#g
