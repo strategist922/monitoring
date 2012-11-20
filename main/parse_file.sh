@@ -29,13 +29,13 @@ echo "Nombre d'erreurs au total : $nbErreursTotal"
 echo ""
 
 if [ "$DISPLAY_CATALINA_ERROR" == "yes" ]; then
-headerStart
-headerBody "Répartition des erreurs Catalina"
-nbErreursCatalina=`getNbErreursDistinctesPourCatalina $LOG_FILE`
-echo ""
-echo "Nb erreurs Catalina $nbErreursCatalina"
-echo ""
-headerEnd
+    headerStart
+    headerBody "Répartition des erreurs Catalina"
+    nbErreursCatalina=`getNbErreursDistinctesPourCatalina $LOG_FILE`
+    echo ""
+    echo "Nb erreurs Catalina $nbErreursCatalina"
+    echo ""
+    headerEnd
 fi
 
 
