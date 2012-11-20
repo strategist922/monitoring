@@ -184,8 +184,8 @@ EOF
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_sur_erreur_rest_endeca(){
   cat > $LOG_FILE << EOF
-[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l'exécution de lolollolo
-[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l'exécution de 808787870
+[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l\'exécution de lolollolo
+[ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l\'exécution de 808787870
 EOF
 
   stdout=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
@@ -222,6 +222,9 @@ testGetNbErreursDistinctesPourCatalina_pas_d_erreurs_catalina(){
 [ERROR] - 06/11/2012 07:31:56 : com.explorimmo.rest.exceptionmapper.ThrowableExceptionMapper  - com.explorimmo.core.exception.ExplorimmoTechnicalException: Problème de connexion Endeca lors de l'exécution de 808787870
 EOF
 
+  stdout=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR catalina" "0" "$stdout"
+
   stderr=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
   assertEquals "detail des erreurs" "" "${stderr}"
@@ -232,6 +235,10 @@ testGetNbErreursDistinctesPourCatalina_une_erreur_catalina(){
 [ERROR] - 19/11/2012 09:56:10 : org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[/].[e-explorimmo-webapp]  - "Servlet.service()" pour la servlet e-explorimmo-webap
 com.endeca.navigation.MyException: Connection unable to determine response code.
 EOF
+
+  stdout=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR catalina" "1" "$stdout"
+
 
   stderr=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
@@ -250,6 +257,9 @@ com.endeca.navigation.MyException: Connection unable to determine response code.
 com.endeca.navigation.MyException: Connection unable to determine response code.
 EOF
 
+  stdout=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR catalina" "4" "$stdout"
+
   stderr=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
   assertEquals "detail des erreurs" "      4 com.endeca.navigation.MyException: Connection unable to determine response code." "${stderr}"
@@ -263,6 +273,9 @@ Unable to create account for candidat with email=brigitte@hotmail.fr
 [ERROR] - 19/11/2012 09:56:10 : org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[/].[e-explorimmo-webapp]  - "Servlet.service()" pour la servlet e-explorimmo-webap
 Unable to create account for candidat with email=dupont@mail.com
 EOF
+
+  stdout=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR catalina" "2" "$stdout"
 
   stderr=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
@@ -281,6 +294,9 @@ com.endeca.navigation.MyException: Connection unable to determine response code.
 Tomcat doesn't understand.
 EOF
 
+  stdout=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR catalina" "4" "$stdout"
+
   stderr=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
   assertEquals "detail des erreurs" "      2 com.endeca.navigation.MyException: Connection unable to determine response code.
@@ -292,6 +308,9 @@ testGetNbErreursDistinctesPourCatalina_plusieurs_erreur_catalina_mal_construites
   cat > $LOG_FILE << EOF
 [ERROR] - 19/11/2012 09:56:10 : org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[/].[e-explorimmo-webapp]  - "Servlet.service()" pour la servlet e-explorimmo-webap
 EOF
+
+  stdout=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>/dev/null`
+  assertEquals "nombre ERROR catalina" "0" "$stdout"
 
   stderr=`getNbErreursDistinctesPourCatalina $LOG_FILE 2>&1 1>/dev/null`
   # le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"

@@ -28,6 +28,8 @@ getNbErreursDistinctesPourCatalina(){
 	grep -w "\[Catalina\]" ${logFile} -A 1 | grep -v "\[Catalina\]" | grep -v "\--" > ${tempLog}
 	agregeLesFichierDeRegles ${tempRules}
 	lectureEtApplicationDesRegles ${tempLog} ${tempRules} | sort | uniq -c > ${tempLog}_resume
+	nbErreursCatalina=`cat ${tempLog} | wc -l`
+	echo "$nbErreursCatalina"
 	sort -nr ${tempLog}_resume >&2
 	rm -f $tempLog*
 }
