@@ -11,7 +11,7 @@ getNbErreursDistinctes(){
  	logFile=$1
 	tempLog='/tmp/verifie_logs.log'
 	tempRules='/tmp/aden.rules'
-	grep -w "ERROR" ${logFile} | awk -F] '{print $2}' > ${tempLog}
+	grep -w "ERROR" ${logFile} | awk -F] 'BEGIN {FS="ERROR[]>) ]"}; {print $2}' > ${tempLog}
 	agregeLesFichierDeRegles ${tempRules}
 	lectureEtApplicationDesRegles ${tempLog} ${tempRules} | sort | uniq -c > ${tempLog}_resume
 	nbErreurs=`cat ${tempLog}_resume | wc -l`

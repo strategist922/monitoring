@@ -66,7 +66,7 @@ testGetNbErreursDistinctes_quandEspaceCrochetChevronError_afficheTroisErreurs(){
 EOF
 
 	std=`getNbErreursDistinctes $LOG_FILE 2>/dev/null`
-	assertEquals "nombre ERROR distinctes" "3" "$std"
+	assertEquals "nombre ERROR distinctes" "2" "$std"
 }
 
 testGetNbErreursDistinctes_quand_plusieurs_resultats_la_frequence_est_triee(){
@@ -82,8 +82,8 @@ EOF
   assertEquals "nombre ERROR distinctes" "2" "$std"
 
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
-  assertEquals "message stderr" "      2  <ERROR> Unable to create account 
-      1  <ERROR> An error has occured during search" "${stderr}"
+  assertEquals "message stderr" "      2  Unable to create account
+      1  An error has occured during search" "${stderr}"
 }
 
 
@@ -124,7 +124,7 @@ EOF
 	assertEquals "nombre ERROR distinctes" "1" "$std"
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
-	assertEquals "detail des erreurs" "      2  <ERROR> Unable to create account for candidat with email=mailXXX" "${stderr}"
+	assertEquals "detail des erreurs" "      2  Unable to create account for candidat with email=mailXXX" "${stderr}"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_id_differents_alors_compter_une_seule_fois(){
@@ -137,7 +137,7 @@ EOF
 	assertEquals "nombre ERROR distinctes" "1" "$std"
   stderr=`getNbErreursDistinctes $LOG_FILE 2>&1 1>/dev/null`
 	# le detail doit contenir en début de ligne le nombre d'occurence de l'erreur"
-	assertEquals "detail des erreurs" "      2  <ERROR> Unable to get cv for candidat id=XXX" "${stderr}"
+	assertEquals "detail des erreurs" "      2  Unable to get cv for candidat id=XXX" "${stderr}"
 }
 
 testGetNbErreursDistinctes_quand_deux_erreurs_identiques_avec_dates_differentes_alors_compter_une_seule_fois(){
